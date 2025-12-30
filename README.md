@@ -165,7 +165,7 @@ search_params = {
 }
 ```
 ### Error Handling & Fallback Strategy
-
+```
 ┌───────────────────────┐
 │ Tavily call           │
 └───────────┬───────────┘
@@ -181,6 +181,7 @@ search_params = {
 │ structured   │     │ Try Serper.dev    │
 │ results      │     │ (fallback)        │
 └──────────────┘     └───────────────────┘
+```
 
 ### Monitoring & Cost Control 
 Track usage in Tavily dashboard (credits consumed per query)
