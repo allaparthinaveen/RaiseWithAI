@@ -107,3 +107,84 @@ graph TD
 | Voice / Narration  | ElevenLabs (natural, positive voices)      | PlayHT, Google WaveNet           |
 | Storage / Cache    | SQLite / JSON files                        | MongoDB, Redis                   |
 | Deployment         | Docker + FastAPI / Streamlit               | Vercel, Railway, AWS Lambda      |
+
+
+
+## High-Level Implementation Plan – Web Search Layer (using Tavily)
+
+This layer is primarily used by the **Trend Researcher** agent to fetch the latest credible news and trends about AI and robotics advancements.
+
+### 1. Setup and Authentication
+
+- Sign up for a Tavily account at [https://tavily.com](https://tavily.com)
+- Generate an API key (free tier gives 1,000 credits/month – no credit card required initially)
+- Store the API key securely:
+  - `.env` file (for local development)
+  - Environment variables (Docker, Railway, Vercel, GitHub Secrets, etc.)
+  - Example: `TAVILY_API_KEY=tvly-XXXXXXXXXXXXXXXXXXXXXXXX`
+
+### 2. Environment Preparation
+
+- Language: Python 3.10+
+- Install the official SDK:
+
+```bash
+pip install tavily-python
+```
+
+### 3. Core Integration – Tavily Client Initialization
+```bash
+from tavily import TavilyClient
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
+```
+### 4. Query Design Guidelines
+Use structured, high-precision queries to get clean, relevant results:
+```bash
+queries = [
+    "latest humanoid robotics breakthroughs 2025",
+    "AI advancements this week site:techcrunch.com OR site:mit.edu OR site:wired.com OR site:theverge.com",
+    "new generative AI models December 2025",
+    "robotics applications in healthcare OR elderly care 2025",
+]
+```
+Tavily search parameters:
+```bash
+search_params = {
+    "search_depth": "advanced",       # or "basic" for faster/cheaper
+    "max_results": 8,                 # 5–10 is usually optimal
+    "include_answer": True,           # gives a quick summarized answer
+    "include_raw_content": False,     # usually not needed – saves tokens
+    "include_images": False,          # enable only if needed for video producer
+    "include_domains": ["techcrunch.com", "mit.edu", "wired.com", "theverge.com", "nature.com"],
+    "exclude_domains": ["reddit.com", "youtube.com", "tiktok.com", "facebook.com"]
+}
+```
+### Error Handling & Fallback Strategy
+```mermaid
+┌───────────────────────┐
+│ Tavily call           │
+└───────────┬───────────┘
+            │
+     ┌──────┴──────┐
+     │   Success?   │
+     └──────┬──────┘
+       Yes  │   No
+   ┌────────┘     └───────┐
+   ▼                      ▼
+┌──────────────┐     ┌───────────────────┐
+│ Return clean │     │ Log error         │
+│ structured   │     │ Try Serper.dev    │
+│ results      │     │ (fallback)        │
+└──────────────┘     └───────────────────┘
+```
+### Monitoring & Cost Control 
+Track usage in Tavily dashboard (credits consumed per query)
+Free tier: 1,000 credits/month (~200–400 advanced searches)
+Set alerts when approaching 80% of quota
+Implement query caching (SQLite / Redis) for repeated topics
+Use search_depth="basic" for initial filtering passes
