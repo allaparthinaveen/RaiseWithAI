@@ -165,7 +165,7 @@ search_params = {
 }
 ```
 ### Error Handling & Fallback Strategy
-```mermaid
+
 ┌───────────────────────┐
 │ Tavily call           │
 └───────────┬───────────┘
@@ -181,7 +181,7 @@ search_params = {
 │ structured   │     │ Try Serper.dev    │
 │ results      │     │ (fallback)        │
 └──────────────┘     └───────────────────┘
-```
+
 ### Monitoring & Cost Control 
 Track usage in Tavily dashboard (credits consumed per query)
 Free tier: 1,000 credits/month (~200–400 advanced searches)
