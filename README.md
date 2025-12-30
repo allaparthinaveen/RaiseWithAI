@@ -97,4 +97,12 @@ graph TD
 
     E --> J & K
 ```
-
+### 🛠️ Technology Stack
+  Layer,Technology choices (recommended first),Alternatives
+  Orchestration,CrewAI,"LangGraph, AutoGen"
+  Core LLM,Gemini 1.5 Pro,"GPT-4o, Claude 3.5 Sonnet"
+  Web Search,Tavily,"Serper.dev, Google News API"
+  Video Generation,HeyGen (avatar + b-roll),"InVideo AI, Runway Gen-3, Sora"
+  Voice / Narration,"ElevenLabs (natural, positive voices)","PlayHT, Google WaveNet"
+  Storage / Cache,SQLite / JSON files,"MongoDB, Redis"
+  Deployment,Docker + FastAPI / Streamlit,"Vercel, Railway, AWS Lambda"
