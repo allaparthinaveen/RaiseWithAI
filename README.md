@@ -53,6 +53,7 @@ Four specialized agents collaborate in sequence:
 6. **Guardrails Layer**       – Positivity enforcement, sentiment checks
 
 ### Workflow
+```mermaid
 flowchart LR
     Start[Start New Run] --> Phase1
 
@@ -70,7 +71,7 @@ flowchart LR
     style Phase2 fill:#fff0e6,stroke:#ff9800
     style Phase3 fill:#e6ffe6,stroke:#4caf50
     style Phase4 fill:#f3e6ff,stroke:#9c27b0
-
+```
 ### High-Level Architecture Diagram (Mermaid)
 
 ```mermaid
@@ -95,3 +96,5 @@ graph TD
     end
 
     E --> J & K
+```
+
