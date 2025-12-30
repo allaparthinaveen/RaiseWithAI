@@ -183,9 +183,15 @@ search_params = {
 └──────────────┘     └───────────────────┘
 ```
 
-### Monitoring & Cost Control 
-Track usage in Tavily dashboard (credits consumed per query)
-Free tier: 1,000 credits/month (~200–400 advanced searches)
-Set alerts when approaching 80% of quota
-Implement query caching (SQLite / Redis) for repeated topics
-Use search_depth="basic" for initial filtering passes
+### How to run these tests
+```
+# Install dependencies (once)
+pip install pytest httpx pytest-asyncio python-dotenv fastapi uvicorn tavily-python
+
+# Run all tests
+pytest test_app.py -v
+
+# Run specific test
+pytest test_app.py::test_health_check -v
+```
+
