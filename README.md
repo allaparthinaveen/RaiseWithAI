@@ -55,29 +55,24 @@ Four specialized agents collaborate in sequence:
 ### High-Level Architecture Diagram (Mermaid)
 
 ```mermaid
-flowchart LR
-    Start[Start\nNew Run] --> Phase1
+graph TD
+    A[Triggers<br>User / Cron] --> B[Orchestrator<br>CrewAI or LangGraph]
 
-    Phase1[Phase 1\nKnowledge Retrieval\nSearch latest AI/robotics news] --> Phase2
-    Phase2[Phase 2\nSocio-Economic Evaluation\nPositive impact analysis] --> Phase3
+    B --> C[1. Trend Researcher]
+    C -->|News summaries + sources| D[2. Impact Strategist]
 
-    Phase3[Phase 3\nContent Transformation\nBlog + LinkedIn writing] --> Decision{Generate Video?}
+    D -->|Positive impact analysis| E[3. Content Specialist]
+    E -->|Blog post + LinkedIn text| F[4. Video Producer]
 
-    Decision -->|Yes| Phase4
-    Decision -->|No| EndTextOnly[Text Outputs Only\nBlog + LinkedIn]
+    F -->|Video script| G[Video Generation API<br>HeyGen / InVideo / Sora]
+    F -->|Narration text| H[Voice Synthesis<br>ElevenLabs]
 
-    Phase4[Phase 4\nVideo Synthesis\nScript + API calls] --> End[Final Outputs\nText + Video]
+    G & H --> I[Final Video<br>MP4 + hosted link]
 
-    style Phase1 fill:#e6f3ff,stroke:#007bff
-    style Phase2 fill:#fff0e6,stroke:#ff9800
-    style Phase3 fill:#e6ffe6,stroke:#4caf50
-    style Phase4 fill:#f3e6ff,stroke:#9c27b0
+    subgraph "Output Artifacts"
+        J[Blog Post .md / .html]
+        K[LinkedIn Post text]
+        I
+    end
 
-Layer,Technology choices (recommended first),Alternatives
-Orchestration,CrewAI,"LangGraph, AutoGen"
-Core LLM,Gemini 1.5 Pro,"GPT-4o, Claude 3.5 Sonnet"
-Web Search,Tavily,"Serper.dev, Google News API"
-Video Generation,HeyGen (avatar + b-roll),"InVideo AI, Runway Gen-3, Sora"
-Voice / Narration,"ElevenLabs (natural, positive voices)","PlayHT, Google WaveNet"
-Storage / Cache,SQLite / JSON files,"MongoDB, Redis"
-Deployment,Docker + FastAPI / Streamlit,"Vercel, Railway, AWS Lambda"
+    E --> J & K
