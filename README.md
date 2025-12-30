@@ -52,6 +52,25 @@ Four specialized agents collaborate in sequence:
 5. **Output Layer**           – Markdown/HTML posts + MP4 video files  
 6. **Guardrails Layer**       – Positivity enforcement, sentiment checks
 
+### Workflow
+flowchart LR
+    Start[Start New Run] --> Phase1
+
+    Phase1[Phase 1\nKnowledge Retrieval\nSearch latest AI/robotics news] --> Phase2
+    Phase2[Phase 2\nSocio-Economic Evaluation\nPositive impact analysis] --> Phase3
+
+    Phase3[Phase 3\nContent Transformation\nBlog + LinkedIn writing] --> Decision{Generate Video?}
+
+    Decision -->|Yes| Phase4
+    Decision -->|No| EndTextOnly[Text Outputs Only\nBlog + LinkedIn]
+
+    Phase4[Phase 4\nVideo Synthesis\nScript + API calls] --> End[Final Outputs\nText + Video]
+
+    style Phase1 fill:#e6f3ff,stroke:#007bff
+    style Phase2 fill:#fff0e6,stroke:#ff9800
+    style Phase3 fill:#e6ffe6,stroke:#4caf50
+    style Phase4 fill:#f3e6ff,stroke:#9c27b0
+
 ### High-Level Architecture Diagram (Mermaid)
 
 ```mermaid
